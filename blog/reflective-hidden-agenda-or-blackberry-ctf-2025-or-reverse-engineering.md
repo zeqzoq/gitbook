@@ -265,7 +265,7 @@ int __cdecl sub_6EB4158A(int a1, int *a2, int *a3)
 
 Because the resources or the flag is cleaned up using free, we need to do dynamic analysis to retrive the flag. This part I'll use x32dbg. Need to change the preference first.
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt="" width="331"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="331"><figcaption></figcaption></figure>
 
 We know that dll cannot run by itself, need rundll32. So we need to change the command line
 
@@ -279,11 +279,11 @@ Based on VoidFunc decompiled code, the "value" is what we want to read, but ther
 
 In IDA, we can synchronize Pseudocode with IDA View to pinpoint where is the while loop in the assembly.
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 can set a breakpoint around there
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 When "follow in dump" at registers, we can read some of the plaintext. so we can assuem that this is a shellcode.
 

@@ -74,7 +74,7 @@ Operation Interception
 
 On the same page, looking at the Techniques Used section
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -110,7 +110,7 @@ Going back to Operation Dream Job page, under software table. While we dont real
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 DRATzarus
 
