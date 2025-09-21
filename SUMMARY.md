@@ -36,6 +36,7 @@
   * [Sherlocks](website-specific/hack-the-box/sherlocks/README.md)
     * [Dream Job](website-specific/hack-the-box/sherlocks/dream-job.md)
     * [UFO-1](website-specific/hack-the-box/sherlocks/ufo-1.md)
+    * [SalineBreeze-1](website-specific/hack-the-box/sherlocks/salinebreeze-1.md)
 
 ## 2024
 

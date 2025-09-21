@@ -9,6 +9,7 @@ Sherlock Info, Scenario and attachment
 ## Tools used
 
 * [https://attack.mitre.org/](https://attack.mitre.org/)
+* [https://mitre-attack.github.io/attack-navigator/](https://mitre-attack.github.io/attack-navigator/)
 
 ### Task 1
 
