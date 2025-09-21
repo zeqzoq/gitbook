@@ -32,6 +32,9 @@
   * [pwn103](website-specific/tryhackme-pwn101/pwn103.md)
   * [pwn104](website-specific/tryhackme-pwn101/pwn104.md)
   * [pwn105](website-specific/tryhackme-pwn101/pwn105.md)
+* [Hack The Box](website-specific/hack-the-box/README.md)
+  * [Sherlocks](website-specific/hack-the-box/sherlocks/README.md)
+    * [Dream Job](website-specific/hack-the-box/sherlocks/dream-job.md)
 
 ## 2024
 
