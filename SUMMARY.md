@@ -39,6 +39,9 @@
     * [SalineBreeze-1](website-specific/hack-the-box/sherlocks/salinebreeze-1.md)
 * [BTLO](website-specific/btlo/README.md)
   * [ThePackage](website-specific/btlo/thepackage.md)
+* [CyberDefenders](website-specific/cyberdefenders/README.md)
+  * [Tusk Infostealer Lab](website-specific/cyberdefenders/tusk-infostealer-lab.md)
+  * [Red Stealer Lab](website-specific/cyberdefenders/red-stealer-lab.md)
 
 ## 2024
 
