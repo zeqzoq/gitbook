@@ -42,6 +42,7 @@
 * [CyberDefenders](website-specific/cyberdefenders/README.md)
   * [Tusk Infostealer Lab](website-specific/cyberdefenders/tusk-infostealer-lab.md)
   * [Red Stealer Lab](website-specific/cyberdefenders/red-stealer-lab.md)
+  * [Intel101 Lab](website-specific/cyberdefenders/intel101-lab.md)
 
 ## 2024
 
