@@ -43,6 +43,7 @@
   * [Tusk Infostealer Lab](website-specific/cyberdefenders/tusk-infostealer-lab.md)
   * [Red Stealer Lab](website-specific/cyberdefenders/red-stealer-lab.md)
   * [Intel101 Lab](website-specific/cyberdefenders/intel101-lab.md)
+  * [BRabbit Lab](website-specific/cyberdefenders/brabbit-lab.md)
 
 ## 2024
 

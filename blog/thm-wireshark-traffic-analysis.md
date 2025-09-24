@@ -22,9 +22,9 @@ description: >-
 | ACK -->       | ACK -->        |                 |
 |               | RST, ACK -->   |                 |
 
-<figure><img src="../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption><p>Open TCP Port (Connect)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1) (1).png" alt=""><figcaption><p>Open TCP Port (Connect)</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1).png" alt=""><figcaption><p>Closed TCP port (Connect)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1).png" alt=""><figcaption><p>Closed TCP port (Connect)</p></figcaption></figure>
 
 `tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size > 1024` to filter only TCP Connect, success and failed.
 
