@@ -23,7 +23,7 @@ Sherlock Scenario and attachment
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 China
 
@@ -39,7 +39,7 @@ Network
 
 There are only one software
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -63,7 +63,7 @@ Clicking into JumblePath page.
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Linux
 

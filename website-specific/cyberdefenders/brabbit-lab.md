@@ -26,7 +26,7 @@ What is the suspicious email address that sent the attachment?
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 theceojamessmith@Drurnbo.com
 
@@ -52,7 +52,7 @@ $ sha256sum Urgent\ Contract\ Action.pdf.exe.bin
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Badrabbit
 
@@ -73,7 +73,7 @@ Went to any.run for this
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 infpub.dat
 
@@ -94,7 +94,7 @@ What is the only person's username found within the dropped file?
 
 As this is threat intel, I dont want to download the dropped file and investigate it myself, so googling the username can bring to blogs that mention about the username.
 
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 alex
 
@@ -132,7 +132,7 @@ What is the MITRE ATT\&CK Sub-Technique ID associated with the ransomware’s pe
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -148,7 +148,7 @@ As part of its infection chain, the ransomware created specific tasks to ensure 
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 dispci
 
