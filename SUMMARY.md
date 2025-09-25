@@ -37,6 +37,7 @@
     * [Dream Job](website-specific/hack-the-box/sherlocks/dream-job.md)
     * [UFO-1](website-specific/hack-the-box/sherlocks/ufo-1.md)
     * [SalineBreeze-1](website-specific/hack-the-box/sherlocks/salinebreeze-1.md)
+    * [Campfire-1](website-specific/hack-the-box/sherlocks/campfire-1.md)
 * [BTLO](website-specific/btlo/README.md)
   * [ThePackage](website-specific/btlo/thepackage.md)
 * [CyberDefenders](website-specific/cyberdefenders/README.md)
