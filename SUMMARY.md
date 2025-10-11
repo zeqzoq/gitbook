@@ -6,6 +6,8 @@
 
 * [THM Wireshark Traffic Analysis](blog/thm-wireshark-traffic-analysis.md)
 * [Reflective Hidden Agenda | Blackberry CTF 2025 | Reverse Engineering](blog/reflective-hidden-agenda-or-blackberry-ctf-2025-or-reverse-engineering.md)
+* [Perfect Bird | TRX CTF 2025 | Misc](blog/perfect-bird-or-trx-ctf-2025-or-misc.md)
+* [Deep Blue Sea | Platypwn 2024 | Forensics](blog/deep-blue-sea-or-platypwn-2024-or-forensics.md)
 
 ## 2025
 
@@ -15,6 +17,14 @@
 * [ASEAN Open Community 2025](2025/asean-open-community-2025.md)
 * [SunCTF 2025](2025/sunctf-2025.md)
 * [ASEAN Open CTF Challenge](2025/asean-open-ctf-challenge.md)
+
+## 2024
+
+* [IBOH24](2024/iboh24.md)
+* [BlockCTF2024](2024/blockctf2024.md)
+* [USC 2024](2024/usc-2024.md)
+* [Curtin CTF 2024](2024/curtin-ctf-2024.md)
+* [Stout CTF 2024](2024/stout-ctf-2024.md)
 
 ## Website Specific
 
@@ -47,10 +57,3 @@
   * [Red Stealer Lab](website-specific/cyberdefenders/red-stealer-lab.md)
   * [Intel101 Lab](website-specific/cyberdefenders/intel101-lab.md)
   * [BRabbit Lab](website-specific/cyberdefenders/brabbit-lab.md)
-
-## 2024
-
-* [readme.md](2024/readme.md.md)
-* [IBOH24](2024/iboh24.md)
-* [BlockCTF2024](2024/blockctf2024.md)
-* [USC 2024](2024/usc-2024.md)

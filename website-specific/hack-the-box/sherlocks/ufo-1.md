@@ -31,11 +31,11 @@ Sherlock Info, Scenario and attachment
 
 Blackenergy group is the other name for Sandworm Team stated at the right side
 
-<figure><img src="../../../.gitbook/assets/image (22).png" alt="" width="454"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (22) (1).png" alt="" width="454"><figcaption></figcaption></figure>
 
 Instead of searching the group's attack navigator, we should loo into the 2016 Ukrainian campaign because the group it self has many credential access techniques but the task said got only two.
 
-<figure><img src="../../../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (23) (1).png" alt=""><figcaption></figcaption></figure>
 
 Under credential access technique should be only two
 
@@ -57,7 +57,7 @@ CTRL+F in the campaign page and got the filename
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (24) (1).png" alt=""><figcaption></figcaption></figure>
 
 ufn.vbs
 
@@ -97,7 +97,7 @@ Neo-REGEORG
 
 CTRL+F to find SCADA
 
-<figure><img src="../../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (25) (1).png" alt=""><figcaption></figcaption></figure>
 
 and there is one mentioning to execute commands
 
@@ -201,7 +201,7 @@ AcidRain
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (26) (1).png" alt=""><figcaption></figcaption></figure>
 
 6789
 

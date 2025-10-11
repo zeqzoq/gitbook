@@ -115,7 +115,7 @@ The web shows about the merlin c2 dll, which related to our dll. It even has the
 
 before running the dll file, we need to know what exported function there is for the dll file. This can easily be done with PeStudio
 
-<figure><img src="../.gitbook/assets/image (17) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (17) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 According to merlin dll agent documentation, Run function is the "Main function to execute Merlin agent" while VoidFunc function is "Used with PowerSploit’s Invoke-ReflectivePEInjection.ps1".&#x20;
 
@@ -125,7 +125,7 @@ PS C:\Users\hzqzz\Downloads> rundll32.exe .\Helper.dll,Run
 
 A notepad will open. and a message box will popup.
 
-<figure><img src="../.gitbook/assets/image (18) (1).png" alt="" width="269"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (18) (1) (1).png" alt="" width="269"><figcaption></figcaption></figure>
 
 When clicking OK the popup will close. The notepad doesnt even save at my current working directory, so I dont really sure about the delete file. maybe if we save the notepad? Who knows. So we'll be taking a look at the pseudocode for both Run and VoidFunc.
 
@@ -265,7 +265,7 @@ int __cdecl sub_6EB4158A(int a1, int *a2, int *a3)
 
 Because the resources or the flag is cleaned up using free, we need to do dynamic analysis to retrive the flag. This part I'll use x32dbg. Need to change the preference first.
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="331"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="331"><figcaption></figcaption></figure>
 
 We know that dll cannot run by itself, need rundll32. So we need to change the command line
 
@@ -279,19 +279,19 @@ Based on VoidFunc decompiled code, the "value" is what we want to read, but ther
 
 In IDA, we can synchronize Pseudocode with IDA View to pinpoint where is the while loop in the assembly.
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 can set a breakpoint around there
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 When "follow in dump" at registers, we can read some of the plaintext. so we can assuem that this is a shellcode.
 
-<figure><img src="../.gitbook/assets/image (5) (1) (1) (1) (1).png" alt="" width="526"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1) (1) (1) (1).png" alt="" width="526"><figcaption></figcaption></figure>
 
 &#x20;Can right click >  binary > save to a file. Then use scdbg and click launch.
 
-<figure><img src="../.gitbook/assets/image (6) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 got the flag: bbctf{Ag3ndA\_3xp0s3d}
 
@@ -301,8 +301,8 @@ First we disassemble Helper.dll. Then set the debugger.
 
 Then there will be a popup of debug application setup. assign rundll32.exe
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 We hit the same breakpoint. But I cant find the right click follow in dump. So I just press G in the hex view and enter address value of the EAX. Which happen got the same result! Time to choose between IDA PRO and x32dbg/x64dbg
 
-<figure><img src="../.gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (20) (1) (1).png" alt=""><figcaption></figcaption></figure>

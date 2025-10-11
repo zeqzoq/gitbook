@@ -59,7 +59,7 @@ From virus total community tab, saw a link to securelist blog
 
 There are one paragraph stated about it
 
-<figure><img src="../../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (27) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -77,7 +77,7 @@ The threat actor set up a malicious website to mimic a platform designed for cre
 
 CTRL+F to find it
 
-<figure><img src="../../.gitbook/assets/image (29).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -93,7 +93,7 @@ Which cloud storage service did the campaign operators use to host malware sampl
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (30) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -109,7 +109,7 @@ The malicious executable contains a configuration file that includes base64-enco
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (31) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -125,7 +125,7 @@ What is the name of the function responsible for retrieving the field archive fr
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (32) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -141,7 +141,7 @@ In the third sub-campaign carried out by the operators, the attacker mimicked an
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (33) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -157,7 +157,7 @@ The downloader is tasked with delivering additional malware samples to the victi
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (34) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>
 
@@ -173,6 +173,6 @@ What is the address of the Ethereum cryptocurrency wallet used in this campaign?
 
 <summary>Answer</summary>
 
-<figure><img src="../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (35) (1).png" alt=""><figcaption></figcaption></figure>
 
 </details>

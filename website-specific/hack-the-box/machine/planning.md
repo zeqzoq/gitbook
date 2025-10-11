@@ -30,7 +30,7 @@ $ sudo nano /etc/hosts
 
 look at the 404 page
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Look at sourcecode. found php.
 
@@ -62,7 +62,7 @@ $ sudo nano /etc/hosts
 
 htb gave admin / 0D5oT70Fq13EvB5r to login
 
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 searched grafana changelog/release note on google to know if its old or not
 
@@ -70,7 +70,7 @@ searched grafana changelog/release note on google to know if its old or not
 
 search grafana and go to vulnerabilities. search for red (or maybe potential exploit)
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 search CVE-2024-9264 github for potential poc
 
@@ -791,15 +791,15 @@ we listen on port 8001 because already open port 8000 for http server for shell.
 
 go to http://127.0.0.1:8001
 
-<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 tried the password root:P4ssw0rdS0pRi0T3c
 
-<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 click new
 
-<figure><img src="../../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```bash
 $ nc -lvnp 9001

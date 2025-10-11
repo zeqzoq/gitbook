@@ -23,7 +23,7 @@ Sherlock Scenario and attachment
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 China
 
@@ -39,7 +39,7 @@ Network
 
 There are only one software
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -63,7 +63,7 @@ Clicking into JumblePath page.
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Linux
 
@@ -77,7 +77,7 @@ Cisco
 
 **The malware can perform 'Indicator Removal' by erasing logs. What is the MITRE ATT\&CK ID for this?**
 
-<figure><img src="../../../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -95,7 +95,7 @@ There are no "Picus Security" in anywhere including the reference in both of the
 
 `site:picussecurity.com "Salt Typhoon""Sophos Firewall"`&#x20;
 
-<figure><img src="../../../.gitbook/assets/image (9).png" alt="" width="530"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (9) (1).png" alt="" width="530"><figcaption></figcaption></figure>
 
 All of them mention about what CVE is for Sophos Firewall
 
@@ -103,7 +103,7 @@ All of them mention about what CVE is for Sophos Firewall
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (10) (1).png" alt=""><figcaption></figcaption></figure>
 
 CVE-2022-3236
 
@@ -123,7 +123,7 @@ Although there are three website that mention about CVE in task 9, but there is 
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
 
 HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 
@@ -145,7 +145,7 @@ The first one should be it
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (13) (1).png" alt=""><figcaption></figcaption></figure>
 
 Earth Estries
 
@@ -159,7 +159,7 @@ Earth Estries
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
 
 GHOSTSPIDER
 
@@ -171,7 +171,7 @@ GHOSTSPIDER
 
 There are one in Campaign Beta
 
-<figure><img src="../../../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -185,7 +185,7 @@ telcom.grishamarkovgf8936.workers.dev
 
 **What is the filename for the first GET request to the C\&C server used by the malware?**
 
-<figure><img src="../../../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (17) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -223,7 +223,7 @@ Rootkit
 
 **The first stage consists of a malicious PowerShell dropper. What type of encryption is used to obfuscate the code?**
 
-<figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (18) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -241,7 +241,7 @@ The malware uses Input/Output Control codes to perform various tasks related to 
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (19) (1).png" alt=""><figcaption></figcaption></figure>
 
 0x220300
 

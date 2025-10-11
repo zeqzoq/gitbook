@@ -38,7 +38,7 @@ Wifi Pineapple
 
 What is the name of the website containing the information of delivery location? (Format: WebsiteName)
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt="" width="536"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt="" width="536"><figcaption></figcaption></figure>
 
 It brought me to GitHub
 
@@ -58,10 +58,10 @@ Used github Dorking right here
 
 `user:jllerenac Pineapple`
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Taking a look at the repository
 
 And I stuck but why this 2 looks malicious
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>

