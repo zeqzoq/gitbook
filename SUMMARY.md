@@ -17,6 +17,7 @@
 * [ASEAN Open Community 2025](2025/asean-open-community-2025.md)
 * [SunCTF 2025](2025/sunctf-2025.md)
 * [ASEAN Open CTF Challenge](2025/asean-open-ctf-challenge.md)
+* [V1t CTF 2025](2025/v1t-ctf-2025.md)
 
 ## 2024
 
