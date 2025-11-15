@@ -58,3 +58,5 @@
   * [Red Stealer Lab](website-specific/cyberdefenders/red-stealer-lab.md)
   * [Intel101 Lab](website-specific/cyberdefenders/intel101-lab.md)
   * [BRabbit Lab](website-specific/cyberdefenders/brabbit-lab.md)
+* [DreamHack](website-specific/dreamhack/README.md)
+  * [Beginner](website-specific/dreamhack/beginner.md)

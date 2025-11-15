@@ -1,0 +1,200 @@
+# Beginner
+
+## Web
+
+### cookie
+
+This is a simple login service that manages authentication status using cookies.\
+Successful logins with the admin account earn you a flag.
+
+The flag format is DH{...}.
+
+Theres not much can do here other than login. Even by the description we know that we need to change cookie and get admin
+
+<details>
+
+<summary>app.py</summary>
+
+```python
+#!/usr/bin/python3
+from flask import Flask, request, render_template, make_response, redirect, url_for
+
+app = Flask(__name__)
+
+try:
+    FLAG = open('./flag.txt', 'r').read()
+except:
+    FLAG = '[**FLAG**]'
+
+users = {
+    'guest': 'guest',
+    'admin': FLAG
+}
+
+@app.route('/')
+def index():
+    username = request.cookies.get('username', None)
+    if username:
+        return render_template('index.html', text=f'Hello {username}, {"flag is " + FLAG if username == "admin" else "you are not admin"}')
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        try:
+            pw = users[username]
+        except:
+            return '<script>alert("not found user");history.go(-1);</script>'
+        if pw == password:
+            resp = make_response(redirect(url_for('index')) )
+            resp.set_cookie('username', username)
+            return resp 
+        return '<script>alert("wrong password");history.go(-1);</script>'
+
+app.run(host='0.0.0.0', port=8000)
+
+```
+
+</details>
+
+app.py shows that we can login with guest:guest
+
+Then looking at the cookie currently there are cookie header for "username" and the value is guest. so we just change the value to admin and refresh the page and got flag
+
+***
+
+### devtools-sources
+
+Use the Sources tab feature in the developer tools to find flags.
+
+The flag format is DH {...} This is it.
+
+Cheat a bit but I search for flag in devtools and I couldnt find it. But I strings the source code and found it under webpack.
+
+<figure><img src="../../.gitbook/assets/{8F83C184-5958-47CA-B851-8281106C1CC1}.png" alt=""><figcaption></figcaption></figure>
+
+I search in assets/image only. so next time search all.
+
+***
+
+### file-download-1
+
+File Download is a web service with a vulnerability.\
+The flag can be obtained by downloading [_flag.py_](http://flag.py/).
+
+the web got two flask route
+
+* `/upload` → blocks filenames containing `..`
+* `/read` → **does not** validate the `name` parameter
+
+The vuln here is in the /read
+
+```python
+filename = request.args.get('name', '')
+open(f'{UPLOAD_DIR}/{filename}', 'rb')
+```
+
+So we can do a **path traversal**: `uploads/../flag.py` → `flag.py` in the app root. Just call /read directly with ../ and we got the flag
+
+```
+http://host8.dreamhack.games:10595/read?name=../flag.py
+```
+
+***
+
+### command-injection-1
+
+A service that sends ping packets to specific hosts.\
+Obtain flags through Command Injection. The flag `flag.py` is located at
+
+the description does not say where is the flag.py located. hm. so we just do the long way
+
+for command injection we can use ; | || etc
+
+but when i inset 8.8.8.8; ls is say please match the requested format
+
+there are client side validation but not server side
+
+```html
+<input type="text" ... name="host"
+       pattern="[A-Za-z0-9.]{5,20}" required>
+```
+
+for the command prompt. the server runs:
+
+```python
+host = request.form.get('host')
+cmd = f'ping -c 3 "{host}"'
+subprocess.check_output(['/bin/sh', '-c', cmd], timeout=5)
+```
+
+if we send inly 8.8.8.8 then it become ping -c 3 "8.8.8.8". the host is always inside double quote. So like in sql injection, we want to close the double quote and add comment
+
+if we use `8.8.8.8"; cat flag.py; #` we get `ping -c 3 "8.8.8.8"; cat flag.py; #"`
+
+Break it down:
+
+* `"` (before our input) starts the quoted argument.
+* `8.8.8.8` is fine.
+* Our injected `"` **closes** the quote → end of `"8.8.8.8"`.
+* `;` starts a **new command**.
+* `cat flag.py` is now a separate, attacker-controlled command.
+* `#` comments out the trailing `"` so it doesn’t matter.
+
+now we know the payload but how do we bypass the weak client side validation? we can just delete it in devtools, or can just use curl!
+
+***
+
+## Carve Party
+
+To celebrate the Halloween party, we have prepared pumpkins! Click the pumpkin 10000 times to get a flag!
+
+The bad thing is, we need to click 10000 times. the good thing is, there are no instance.
+
+But this is web challenge. So during training, I need to solve it using web skillz. Open the html, head straight to inspect. find the variable for the click number. print it in console to confirm it. u should see the variable is clicks. but if you try modifying it, its not updating and couldnt get the flag. its because of the js. need to modify js variable instead. so we modify counter. but modify the counter doesnt trigger the xor. so we cant change values. so we write script to simulate the xor
+
+```javascript
+var pumpkin = [124,112,59,73,167,100,105,75,59,23,16,181,165,104,43,49,118,71,112,169,43,53];
+var pie = 1;
+for (let step = 0; step < 100; step++) {
+  for (let i = 0; i < pumpkin.length; i++) {
+    pumpkin[i] ^= pie;
+    pie = ((pie ^ 0xff) + (i * 10)) & 0xff;
+  }
+}
+console.log(String.fromCharCode(...pumpkin));
+```
+
+***
+
+## Misc
+
+### 64se64
+
+“Welcome! This is an html page that outputs 👋”.
+
+Check the source code to solve problems and obtain flags.
+
+The flag format is DH {...} This is it.
+
+you dont need to start the vm. the source file is the flag. inspect the html file, you will see long base64 string. decode the base64, copy paste the output in python compiler and you will get the flag.
+
+***
+
+## reversing
+
+### Reversing Basic Challenge #0 <a href="#reversing-basic-challenge-0" id="reversing-basic-challenge-0"></a>
+
+In this problem, the user is given a program that takes a string input, verifies the input value in a fixed way, and outputs correct or wrong.
+
+Analyze this binary to find an input value that outputs correct!
+
+Please verify the obtained input values by putting them in a `DH{}` format.
+
+Example) If the input value is `Apple_Banana` the flag `DH{Apple_Banana}`
+
+got an exe file. always `file` and `strings` first. in strings, you can get the input answer.
