@@ -185,6 +185,41 @@ you dont need to start the vm. the source file is the flag. inspect the html fil
 
 ***
 
+### Exercise: Welcome-Beginners
+
+This is a question for Wargame exercises. Enter “Dreamhack” to get a flag!
+
+The format of the flag is DH {...} That's it.
+
+just enter Deamhack
+
+***
+
+### baby-linux
+
+The web service that runs Linux commands is working.\
+The code for the corresponding web service is given as an attachment.
+
+Find the flag.txt file and print it out to get the flag!
+
+The flag format is DH {...} This is it.
+
+Just run some linux command to find the flag. from ls we can see hint.txt
+
+{% code title="hint.txt" %}
+```
+Where is Flag? ./dream/hack/hello
+```
+{% endcode %}
+
+```
+./dream/hack/hello: directory
+```
+
+ls ./dream/hack/hello and found flag.txt. but from app.py we can see the word "flag" is blacklisted. we can cat f?ag.txt instead.
+
+***
+
 ## reversing
 
 ### Reversing Basic Challenge #0 <a href="#reversing-basic-challenge-0" id="reversing-basic-challenge-0"></a>
@@ -198,3 +233,86 @@ Please verify the obtained input values by putting them in a `DH{}` format.
 Example) If the input value is `Apple_Banana` the flag `DH{Apple_Banana}`
 
 got an exe file. always `file` and `strings` first. in strings, you can get the input answer.
+
+***
+
+### Reversing Basic Challenge #1 <a href="#reversing-basic-challenge-1" id="reversing-basic-challenge-1"></a>
+
+In this problem, the user is given a program that takes a string input, verifies the input value in a fixed way, and outputs correct or wrong.
+
+Analyze this binary to find out the input value that outputs correct.
+
+Please verify the obtained input values by putting them in a `DH{}` format.
+
+Example) If the input value is `Apple_Banana` the flag `DH{Apple_Banana}`&#x20;
+
+This time cannot strings. when decompile it we got basic function with no cipher
+
+```c
+int __fastcall main(int argc, const char **argv, const char **envp)
+{
+  char v4[256]; // [rsp+20h] [rbp-118h] BYREF
+
+  memset(v4, 0, sizeof(v4));
+  sub_1400013E0("Input : ", argv, envp);
+  sub_140001440("%256s", v4);
+  if ( (unsigned int)sub_140001000(v4) )
+    puts("Correct");
+  else
+    puts("Wrong");
+  return 0;
+}
+```
+
+```c
+_BOOL8 __fastcall sub_140001000(_BYTE *a1)
+{
+  if ( *a1 != 67 )
+    return 0LL;
+  if ( a1[1] != 111 )
+    return 0LL;
+  if ( a1[2] != 109 )
+    return 0LL;
+  if ( a1[3] != 112 )
+    return 0LL;
+  if ( a1[4] != 97 )
+    return 0LL;
+  if ( a1[5] != 114 )
+    return 0LL;
+  if ( a1[6] != 51 )
+    return 0LL;
+  if ( a1[7] != 95 )
+    return 0LL;
+  if ( a1[8] != 116 )
+    return 0LL;
+  if ( a1[9] != 104 )
+    return 0LL;
+  if ( a1[10] != 101 )
+    return 0LL;
+  if ( a1[11] != 95 )
+    return 0LL;
+  if ( a1[12] != 99 )
+    return 0LL;
+  if ( a1[13] != 104 )
+    return 0LL;
+  if ( a1[14] != 52 )
+    return 0LL;
+  if ( a1[15] != 114 )
+    return 0LL;
+  if ( a1[16] != 97 )
+    return 0LL;
+  if ( a1[17] != 99 )
+    return 0LL;
+  if ( a1[18] != 116 )
+    return 0LL;
+  if ( a1[19] != 51 )
+    return 0LL;
+  if ( a1[20] == 114 )
+    return a1[21] == 0;
+  return 0LL;
+}
+```
+
+We just take the number and convert to ascii
+
+<figure><img src="../../.gitbook/assets/{DE744611-1D6E-47AB-8542-3EADF50BEAD4}.png" alt=""><figcaption></figcaption></figure>
